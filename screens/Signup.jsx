@@ -9,21 +9,21 @@ import { View,
          Image, 
          Alert,
          StyleSheet } from 'react-native';
-import { auth } from '../config'
-import { signInWithEmailAndPassword } from 'firebase/auth';         
 import colors from "../colors"
+import { auth } from '../config';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 const backImage = require("../assets/background.jpg");
 //그림자는 react-native-shadow-2
-const Login = ({ navigation }) => {
+const Signup = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onPress = () => {
-     if(email !== '' && password !== ''){
-        signInWithEmailAndPassword(auth, email, password)
-        .then(()=> console.log("로그인성공"))
-        .catch((err) => Alert.alert("Login error", err.message));
-     }
+   if(email !== '' && password !== '') {
+      createUserWithEmailAndPassword(auth, email, password)
+      .then(()=>console.log('회원가입 완료'))
+      .catch((err)=> Alert.alert("SignUp Error", err.message));
+   }
   }
 
   return (
@@ -31,7 +31,7 @@ const Login = ({ navigation }) => {
       <View style={styles.container}>
         <Image source={backImage} style={styles.backImage} />
         <SafeAreaView style={styles.bgColorSheet}>
-                <Text style={styles.title}>회원 로그인</Text>
+                <Text style={styles.title}>회원 가입</Text>
                 <TextInput 
                   style={styles.input} 
                   placeholder="이메일"
@@ -52,11 +52,11 @@ const Login = ({ navigation }) => {
                   onChangeText={(text)=>setPassword(text)}
                 />
                 <TouchableOpacity style={styles.button} onPress={onPress}>
-                    <Text style={styles.buttonText}>로그인</Text>
+                    <Text style={styles.buttonText}>회원가입</Text>
                 </TouchableOpacity>
             <View style={styles.joinView}>
-              <TouchableOpacity onPress={()=>navigation.navigate("Signup")}>
-                 <Text style={styles.joinText}>회원가입</Text>
+              <TouchableOpacity onPress={()=> navigation.navigate("Login")}>
+                 <Text style={styles.joinText}>회원로그인</Text>
               </TouchableOpacity>    
             </View>            
         </SafeAreaView>
@@ -140,4 +140,4 @@ const styles = StyleSheet.create({
       fontSize: 16
    }
 });
-export default Login
+export default Signup
